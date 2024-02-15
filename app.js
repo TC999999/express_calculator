@@ -15,13 +15,16 @@ app.get("/", (req, res) => {
 
 app.get("/mean", (req, res, next) => {
   try {
-    let numArr = errorHandling(req);
+    let numArr = errorHandling(req.query.nums);
     let mean = String(getMean(numArr));
     const meanObj = {
-      response: { operation: "mean", values: numArr, mean: mean },
+      operation: "mean",
+      values: numArr,
+      mean: mean,
     };
-    writeResults(meanObj, req);
-    return res.send(meanObj);
+
+    writeResults(meanObj, req.query.save);
+    return res.send({ response: meanObj });
   } catch (e) {
     next(e);
   }
@@ -29,13 +32,16 @@ app.get("/mean", (req, res, next) => {
 
 app.get("/median", (req, res, next) => {
   try {
-    let numArr = errorHandling(req);
+    let numArr = errorHandling(req.query.nums);
     let median = String(getMedian(numArr));
     let medianObj = {
-      response: { operation: "median", values: numArr, median: median },
+      operation: "median",
+      values: numArr,
+      median: median,
     };
-    writeResults(medianObj, req);
-    return res.send(medianObj);
+
+    writeResults(medianObj, req.query.save);
+    return res.send({ response: medianObj });
   } catch (e) {
     next(e);
   }
@@ -43,13 +49,16 @@ app.get("/median", (req, res, next) => {
 
 app.get("/mode", (req, res, next) => {
   try {
-    let numArr = errorHandling(req);
+    let numArr = errorHandling(req.query.nums);
     let modeArr = getMode(numArr);
     let modeObj = {
-      response: { operation: "mode", values: numArr, mode: modeArr },
+      operation: "mode",
+      values: numArr,
+      mode: modeArr,
     };
-    writeResults(modeObj, req);
-    return res.send(modeObj);
+
+    writeResults(modeObj, req.query.save);
+    return res.send({ response: modeObj });
   } catch (e) {
     next(e);
   }
@@ -57,21 +66,20 @@ app.get("/mode", (req, res, next) => {
 
 app.get("/all", (req, res, next) => {
   try {
-    let numArr = errorHandling(req);
+    let numArr = errorHandling(req.query.nums);
     let mean = String(getMean(numArr));
     let median = String(getMedian(numArr));
     let mode = getMode(numArr);
     let allObj = {
-      response: {
-        operation: "all",
-        values: numArr,
-        mean: mean,
-        median: median,
-        mode: mode,
-      },
+      operation: "all",
+      values: numArr,
+      mean: mean,
+      median: median,
+      mode: mode,
     };
-    writeResults(allObj, req);
-    return res.send(allObj);
+
+    writeResults(allObj, req.query.save);
+    return res.send({ response: allObj });
   } catch (e) {
     next(e);
   }
